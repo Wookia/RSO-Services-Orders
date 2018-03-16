@@ -1,0 +1,17 @@
+{
+  "name": "RSO-Services-Orders",
+  "version": "0.0.1",
+  "description": "Orders service for RSO project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wookia/RSO-Services-Orders"
+  },
+  "homepage": "https://github.com/Wookia/RSO-Services-Orders#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
