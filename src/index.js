@@ -1,25 +1,28 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
-const app = express();
+const Menu = require('./menu');
 
-app.use(function (req, res, next) {
+let app = express();
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
     res.setHeader('Access-Control-Allow-Credentials', true);
-
     next();
 });
 
 app.get('/orders', (req, res) => {
-    console.log("Orders");
+    console.log("GET orders");
     res.json({
-        responseFrom: "orders"
+        responseFrom: "orders",
+        status: "backend in development phase"
     });
 });
 
-app.listen(process.env.PORT || 3000, () => console.log('Example app listening on port: ' + (process.env.PORT || 3000)));
+let menu = new Menu(app);
+
+app.listen(process.env.PORT || 3000, () => console.log('Orders backend listening on port: ' + (process.env.PORT || 3000)));
