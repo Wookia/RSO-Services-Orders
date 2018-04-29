@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const Menu = require('./menu');
+const Orders = require('./orders');
 
 let app = express();
 // parse application/x-www-form-urlencoded
@@ -15,14 +16,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/orders', (req, res) => {
-    console.log("GET orders");
-    res.json({
-        responseFrom: "orders",
-        status: "backend in development phase"
-    });
-});
-
 let menu = new Menu(app);
+let orders = new Orders(app);
 
 app.listen(process.env.PORT || 3000, () => console.log('Orders backend listening on port: ' + (process.env.PORT || 3000)));
