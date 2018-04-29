@@ -8,7 +8,7 @@ class Responder {
         this.app.get(this.path, (req, res) => {
             console.log('GET ' + this.name + ' ' + JSON.stringify(req.query));
 
-            if (Object.keys(req.query).length === 0 && req.query.constructor === Object)
+            if (this.isEmpty(req.query))
                 return res.send(this.database.getAll());
 
             const result = this.database.findMatches(req.query);
@@ -42,6 +42,10 @@ class Responder {
             const record = this.database.delete(req.params.id);
             res.send(record);
         });
+    }
+
+    isEmpty(obj) {
+        return Object.keys(obj).length === 0 && obj.constructor === Object
     }
 }
 

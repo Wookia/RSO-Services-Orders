@@ -38,12 +38,11 @@ GET /orders/menu/ID
 
 GET /orders/menu?FILTERS
 
-POST /orders/menu
+POST /orders/menu => parameters in body
 
-PUT /orders/menu/ID
+PUT /orders/menu/ID => parameters in body
 
 DELETE orders/menu/ID
-
 
 ### Orders
 
@@ -53,8 +52,12 @@ GET /orders/ID
 
 GET /orders?FILTERS
 
-POST /orders
+POST /orders => parameters in body
 
-PUT /orders/ID
+PUT /orders/ID => parameters in body
 
 DELETE orders/ID
+
+POST orders/dish/ID => parameters in body
+
+DELETE orders/dish/ID => parameters in body

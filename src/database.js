@@ -36,7 +36,7 @@ class Database {
             return record;
         }
         console.log('ERROR: element do not exist');
-        return {type: 'ERORR', description: "Element do not exist"};
+        return {type: 'ERROR', description: "Element do not exist"};
     }
 }
 

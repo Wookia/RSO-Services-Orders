@@ -16,10 +16,30 @@ class OrdersDB extends Database {
             id: this.id++,
             table: body.table,
             waiter: body.waiter,
+            dishes: [],
             state: body.state
         };
         this.records.push(record);
         return record;
+    }
+
+    addDish(recordID, body) {
+        let record = this.findById(recordID);
+        const dishID = parseInt(body["dish"]);
+        record.dishes.push(dishID);
+        return record;
+    }
+
+    deleteDish(recordID, body) {
+        let record = this.findById(recordID);
+        const dishID = parseInt(body["dish"]);
+        const index = record.dishes.indexOf(dishID);
+        if (index > -1) {
+            record.dishes.splice(index, 1);
+            return {dish: dishID};
+        }
+        console.log('ERROR: dont exist');
+        return {type: 'ERROR', description: "Element do not exist"};
     }
 }
 
