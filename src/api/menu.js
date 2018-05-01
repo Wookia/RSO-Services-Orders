@@ -1,5 +1,5 @@
 const Responder = require('./responder');
-const MenuDB = require('./storage/menu_db');
+const MenuDB = require('../storage/menu_db');
 
 class Menu extends Responder {
     constructor(app) {

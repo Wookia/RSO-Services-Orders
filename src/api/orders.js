@@ -1,5 +1,5 @@
 const Responder = require('./responder');
-const OrdersDB = require('./storage/orders_db');
+const OrdersDB = require('../storage/orders_db');
 
 class Orders extends Responder {
     constructor(app) {

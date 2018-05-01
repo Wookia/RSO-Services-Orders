@@ -8,7 +8,7 @@ class Responder {
         this.app.get(this.path, (req, res) => {
             console.log('GET ' + this.name + ' ' + JSON.stringify(req.query));
 
-            if (this.isEmpty(req.query))
+            if (Responder.isObjEmpty(req.query))
                 return res.send(this.database.getAll());
 
             const result = this.database.findMatches(req.query);
@@ -44,7 +44,7 @@ class Responder {
         });
     }
 
-    isEmpty(obj) {
+    static isObjEmpty(obj) {
         return Object.keys(obj).length === 0 && obj.constructor === Object
     }
 }
