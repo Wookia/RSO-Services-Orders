@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 
 const utils = require('../utils');
 
+
 class Table {
     constructor(dbDriver) {
         this.dbDriver = dbDriver;

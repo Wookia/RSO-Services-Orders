@@ -1,7 +1,7 @@
-const Responder = require('./responder');
+const Controller = require('./controller');
 const OrdersDB = require('../storage/orders_db');
 
-class Orders extends Responder {
+class Orders extends Controller {
     constructor(app, dbDriver) {
         super(app, new OrdersDB(dbDriver), '/orders', 'orders');
 

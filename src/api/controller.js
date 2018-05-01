@@ -1,4 +1,4 @@
-class Responder {
+class Controller {
     constructor(app, database, path, name) {
         this.app = app;
         this.database = database;
@@ -43,4 +43,4 @@ class Responder {
     }
 }
 
-module.exports = Responder;
+module.exports = Controller;
