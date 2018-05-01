@@ -1,10 +1,9 @@
 const Sequelize = require('sequelize');
-let Promise = require("bluebird");
 
-const Database = require('./database');
+const Table = require('./table');
 
 
-class MenuDB extends Database {
+class MenuDB extends Table {
     constructor(dbDriver) {
         super(dbDriver);
 

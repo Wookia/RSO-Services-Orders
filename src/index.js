@@ -1,12 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-let Promise = require("bluebird");
-
-// TODO remove
-const Sequelize = require('sequelize');
 let dbDriverPromise = require('./storage/driver');
-
 const Menu = require('./api/menu');
 const Orders = require('./api/orders');
 
@@ -25,7 +20,7 @@ app.use((req, res, next) => {
 dbDriverPromise
     .then((dbDriver) => {
         let menu = new Menu(app, dbDriver);
-        // let orders = new Orders(app, dbDriver);
+        let orders = new Orders(app, dbDriver);
 
         app.listen(process.env.PORT || 3000, () => console.log('Orders backend listening on port: ' + (process.env.PORT || 3000)));
     });

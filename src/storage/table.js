@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const utils = require('../utils');
 
-class Database {
+class Table {
     constructor(dbDriver) {
         this.dbDriver = dbDriver;
         this.model = {};
@@ -44,7 +44,10 @@ class Database {
         return new Promise((resolve, reject) => {
             this.model.findById(id)
                 .then(collection => {
-                    resolve(collection.dataValues);
+                    if (collection !== null)
+                        resolve(collection.dataValues);
+                    else
+                        reject(new Error('Internal database error: constraints failed'));
                 })
         });
     }
@@ -85,4 +88,4 @@ class Database {
     }
 }
 
-module.exports = Database;
+module.exports = Table;
