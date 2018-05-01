@@ -1,42 +1,87 @@
+const Sequelize = require('sequelize');
+
+const utils = require('../utils');
+
 class Database {
-    constructor() {
-        this.id = 1;
-        this.records = [];
+    constructor(dbDriver) {
+        this.dbDriver = dbDriver;
+        this.model = {};
     }
 
-    getAll() {
-        return this.records;
+    initializeModel(name, columns, dropExisting) {
+        this.model = this.dbDriver.define(name, columns);
+
+        return new Promise((resolve, reject) => {
+            resolve(this.model.sync({force: dropExisting}));
+        });
+    }
+
+    add(body) {
+        return new Promise((resolve, reject) => {
+            this.model.create(body)
+                .then(model => {
+                    resolve(model.dataValues);
+                });
+        });
+    }
+
+    getAll(constraints) {
+        return new Promise((resolve, reject) => {
+            const where = {
+                where: constraints
+            };
+            this.model.findAll(where)
+                .then(collection => {
+                    let records = [];
+                    for (let index in collection)
+                        records.push(collection[index].dataValues);
+                    resolve(records);
+                })
+        });
     }
 
     findById(id) {
-        return this.records.find(e => e.id === id);
-    }
-
-    findMatches(filter) {
-        let result = this.getAll();
-        for (let key in filter)
-            result = result.filter(e => e[key] == filter[key]);
-        return result;
+        return new Promise((resolve, reject) => {
+            this.model.findById(id)
+                .then(collection => {
+                    resolve(collection.dataValues);
+                })
+        });
     }
 
     update(id, body) {
-        let record = this.records.find(e => e.id === parseInt(id));
-
-        for (let key in body)
-            record[key] = body[key];
-
-        return record;
+        return new Promise((resolve, reject) => {
+            const where = {
+                where: {id: id}
+            };
+            this.model.update(body, where)
+                .then(result => {
+                    if (result.length === 1)
+                        resolve(this.findById(id));
+                    else
+                        throw new Error('Internal database error: constraints failed');
+                });
+        });
     }
 
     delete(id) {
-        const record = this.records.find(e => e.id === parseInt(id));
-        const index = this.records.indexOf(record);
-        if (index > -1) {
-            this.records.splice(index, 1);
-            return record;
-        }
-        console.log('ERROR: element do not exist');
-        return {type: 'ERROR', description: "Element do not exist"};
+        return new Promise((resolve, reject) => {
+            let recordForDeletion = {};
+            this.findById(id)
+                .then(record => {
+                    recordForDeletion = record;
+                    const where = {
+                        where: {id: id}
+                    };
+                    return this.model.destroy(where);
+                })
+                .then(result => {
+                    if (result === 1)
+                        resolve(recordForDeletion);
+                    else
+                        throw new Error('Internal database error: constraints failed');
+                });
+        });
     }
 }
 
