@@ -6,7 +6,7 @@ TODO: Create real description of service.
 
 ## Getting Started
 
-Following instructions bellow you will be able to create running version of fronted
+Following instructions bellow you will be able to create running version of orders backend service
 
 ### Installing
 
@@ -26,4 +26,38 @@ npm install
 npm start
 ```
 
-If you are working on this service using Visual Studio Code you may also launch this service id debug mode
+If you are working on this service using Visual Studio Code you may also launch this service in debug mode
+
+## Available requests
+
+### Menu
+
+GET /orders/menu
+
+GET /orders/menu/ID
+
+GET /orders/menu?FILTERS
+
+POST /orders/menu => parameters in body
+
+PUT /orders/menu/ID => parameters in body
+
+DELETE orders/menu/ID
+
+### Orders
+
+GET /orders
+
+GET /orders/ID
+
+GET /orders?FILTERS
+
+POST /orders => parameters in body
+
+PUT /orders/ID => parameters in body
+
+DELETE orders/ID
+
+POST orders/dish/ID => parameters in body
+
+DELETE orders/dish/ID => parameters in body

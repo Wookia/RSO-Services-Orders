@@ -1,1 +1,10 @@
+# Node.js
 node_modules
+*.log
+
+# JetBrains
+.idea
+
+# Kubuntu
+.directory
+
