@@ -4,7 +4,7 @@ let Promise = require("bluebird");
 
 function createConnection() {
     // TODO create process.env.* variables in docker configuration
-    const DB_HOST = getDbHost();
+    const DB_HOST = 'orders-db';
     const DB_PORT = 5432;
     const DB_NAME = 'postgres';
     const DB_USER = 'postgres';
@@ -26,22 +26,12 @@ function getValidConnection(dbDriver) {
                 resolve(dbDriver);
             })
             .catch(err => {
-                reject(err);
+                console.log('Connection to DB cannot be established at the moment');
+                console.log(err.message);
+                // reject(err);
+                setTimeout(() => resolve(getValidConnection(dbDriver)), 10000);
             });
     });
-}
-
-function getDbHost() {
-    let host = '';
-    const isWin = process.platform === "win32";
-    if (isWin === true) {
-        console.log('System: Windows');
-        host = 'localhost';
-    } else {
-        console.log('System: Linux/Mac');
-        host = '192.168.99.100';
-    }
-    return host;
 }
 
 let sequelize = createConnection();
