@@ -6,8 +6,7 @@ const Menu = require('./api/menu');
 const Orders = require('./api/orders');
 
 let app = express();
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
