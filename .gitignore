@@ -1,1 +1,13 @@
+# Project
+# dev-keys
+
+# Node.js
 node_modules
+*.log
+
+# JetBrains
+.idea
+
+# Kubuntu
+.directory
+

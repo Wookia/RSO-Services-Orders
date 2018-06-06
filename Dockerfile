@@ -15,3 +15,4 @@ EXPOSE 8000
 
 # Start the process
 CMD [ "npm", "start" ]
+
