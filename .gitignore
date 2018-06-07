@@ -1,5 +1,6 @@
 # Project
-# dev-keys
+dev-keys/private.ppk
+spec/database.sqlite
 
 # Node.js
 node_modules

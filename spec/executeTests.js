@@ -11,6 +11,6 @@ jasmine.onComplete(function(){
 
 process.env.TESTS = true;
 process.env.DB_HOST = 'localhost';
-process.env.DB_PORT = 3000;
+process.env.DB_PORT = 5432;
 
 jasmine.execute();
