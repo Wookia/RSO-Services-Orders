@@ -1,10 +1,10 @@
-let dbDriverPromise = require('../src/storage/driver');
+let dbDriverPromise = require('../../src/storage/driver');
 
 
 describe('DB Driver', () => {
     let dbDriver = {};
 
-    beforeEach((done) => {
+    beforeAll((done) => {
         dbDriverPromise.then((driver) => {
             dbDriver = driver;
             done();
@@ -21,13 +21,5 @@ describe('DB Driver', () => {
 
     it('password', () => {
         expect(dbDriver.config.password).toBe('password');
-    });
-
-    it('host', () => {
-        expect(dbDriver.config.host).toBe('192.168.99.100');
-    });
-
-    it('port', () => {
-        expect(dbDriver.config.port).toBe(5432);
     });
 });

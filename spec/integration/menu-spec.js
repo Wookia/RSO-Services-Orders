@@ -1,9 +1,18 @@
-var request = require('request');
+let request = require('request');
+const fs = require('fs');
 
 
 describe('Menu api ', () => {
     const URL = 'http://localhost:3000';
     const API = '/api/menu';
+
+    beforeAll((done) => {
+        const myService = require("../../src/server.js");
+        myService.startServer
+            .then(() => {
+                done();
+            });
+    }, 60000);
 
     function checkErrorAndResponse(error, response) {
         expect(error).toBe(null);
@@ -63,7 +72,7 @@ describe('Menu api ', () => {
     }
 
     describe('POST ', () => {
-        it('successful /api/menu', (done) => {
+        it('successful POST /api/menu', (done) => {
             samplePOST((error, response, body) => {
                 checkErrorAndResponse(error, response);
                 checkBody(body, sampleRequestBody);

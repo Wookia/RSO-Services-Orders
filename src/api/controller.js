@@ -1,7 +1,7 @@
 let router = require("express-promise-router")();
 let bodyParser = require('body-parser');
 
-router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
 
 let jwt = require('express-jwt');
@@ -14,34 +14,34 @@ class Controller {
         this.path = path;
         this.name = name;
 
-        this.publicKey =  fs.readFileSync('./dev-keys/public.pem');
+        this.publicKey = fs.readFileSync('./dev-keys/public.pem');
         this.router = router;
 
         this.defineEndPoints();
     }
 
     defineEndPoints() {
-        this.router.get(this.path, jwt({secret: this.publicKey, algorithms: ['RS256']}), (req, res) => {
+        this.router.get(this.path, this.checkJwt(), (req, res) => {
             console.log('GET ' + this.name + ' ' + JSON.stringify(req.query));
             this.handlePromiseResponse(this.database.getAll(req.query), res);
         });
 
-        this.router.get(this.path + '/:id', jwt({secret: this.publicKey, algorithms: ['RS256']}), (req, res) => {
+        this.router.get(this.path + '/:id', this.checkJwt(), (req, res) => {
             console.log('GET ' + this.name + ' ' + req.params.id);
             this.handlePromiseResponse(this.database.findById(parseInt(req.params.id)), res);
         });
 
-        this.router.post(this.path, jwt({secret: this.publicKey, algorithms: ['RS256']}), (req, res) => {
+        this.router.post(this.path, this.checkJwt(), (req, res) => {
             console.log('POST ' + this.name + ' ' + JSON.stringify(req.body));
             this.handlePromiseResponse(this.database.add(req.body), res);
         });
 
-        this.router.put(this.path + '/:id', jwt({secret: this.publicKey, algorithms: ['RS256']}), (req, res) => {
+        this.router.put(this.path + '/:id', this.checkJwt(), (req, res) => {
             console.log('PUT ' + this.name + ' ' + req.params.id + ' ' + JSON.stringify(req.body));
             this.handlePromiseResponse(this.database.update(req.params.id, req.body), res);
         });
 
-        this.router.delete(this.path + '/:id', jwt({secret: this.publicKey, algorithms: ['RS256']}), (req, res) => {
+        this.router.delete(this.path + '/:id', this.checkJwt(), (req, res) => {
             console.log('DELETE ' + this.name + ' ' + req.params.id);
             this.handlePromiseResponse(this.database.delete(req.params.id), res);
         });
@@ -56,6 +56,16 @@ class Controller {
             .then(result => {
                 res.send(result);
             });
+    }
+
+    checkJwt() {
+        if (process.env.TESTS) {
+            return (token, secret, next) => {
+                next();
+            };
+        } else {
+            return jwt({secret: this.publicKey, algorithms: ['RS256']});
+        }
     }
 }
 

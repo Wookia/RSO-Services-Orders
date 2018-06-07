@@ -9,11 +9,16 @@ function createConnection() {
     const DB_HOST = (process.env.DB_HOST || getDbHost());
     const DB_PORT = (process.env.DB_PORT || 5432);
 
-    return new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+    let config = process.env.TESTS ? {
+        dialect: 'sqlite',
+        storage: 'spec/database.sqlite'
+    } : {
         dialect: 'postgres',
         host: DB_HOST,
         port: DB_PORT
-    });
+    };
+
+    return new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, config);
 }
 
 function getValidConnection(dbDriver) {
@@ -34,6 +39,9 @@ function getValidConnection(dbDriver) {
 }
 
 function getDbHost() {
+    if (process.env.TESTS === true)
+        return 'localhost';
+
     let host = '';
     const isWin = process.platform === "win32";
     if (isWin === true) {

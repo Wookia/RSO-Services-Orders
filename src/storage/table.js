@@ -6,11 +6,15 @@ class Table {
         this.model = {};
     }
 
-    initializeModel(name, columns, dropExisting) {
+    initialize(name, columns) {
         this.model = this.dbDriver.define(name, columns);
 
+        let config = {
+            force: process.env.TESTS ? true : false
+        };
+
         return new Promise((resolve, reject) => {
-            resolve(this.model.sync({force: dropExisting}));
+            resolve(this.model.sync(config));
         });
     }
 
@@ -34,7 +38,9 @@ class Table {
                     for (let index in collection)
                         records.push(collection[index].dataValues);
                     resolve(records);
-                })
+                }).catch(e => {
+                    console.log(e);
+                });
         });
     }
 
