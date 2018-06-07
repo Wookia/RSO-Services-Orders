@@ -1,6 +1,7 @@
 # Project
 dev-keys/private.ppk
 spec/database.sqlite
+coverage
 
 # Node.js
 node_modules

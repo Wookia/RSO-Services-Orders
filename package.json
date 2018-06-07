@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "node spec/executeTests.js"
+    "test": "istanbul cover --config=./spec/.istanbul.yml ./spec/executeTests.js"
   },
   "repository": {
     "type": "git",
