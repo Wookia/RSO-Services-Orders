@@ -6,7 +6,7 @@ let jwt = require('express-jwt');
 
 class Orders extends Controller {
     constructor(dbDriver) {
-        super(new OrdersDB(dbDriver), '/api/orders', 'orders');
+        super(new OrdersDB(dbDriver), '/api/orders', 'orders', {});
 
         this.router.post(this.path + '/:id/dish', this.checkJwt(), (req, res) => {
             console.log('POST ' + this.name + ' ' + req.params.id + ' /add ' + JSON.stringify(req.body));

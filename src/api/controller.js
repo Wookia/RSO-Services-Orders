@@ -9,19 +9,20 @@ let fs = require('fs');
 
 
 class Controller {
-    constructor(database, path, name) {
+    constructor(database, path, name, noTokenEndpoints) {
         this.database = database;
         this.path = path;
         this.name = name;
 
         this.publicKey = fs.readFileSync('./dev-keys/public.pem');
         this.router = router;
+        this.noTokenEndpoints = noTokenEndpoints;
 
         this.defineEndPoints();
     }
 
     defineEndPoints() {
-        this.router.get(this.path, this.checkJwt(), (req, res) => {
+        this.router.get(this.path, this.checkJwt({type: 'GET', endpoint: this.path}), (req, res) => {
             console.log('GET ' + this.name + ' ' + JSON.stringify(req.query));
             this.handlePromiseResponse(this.database.getAll(req.query), res);
         });
@@ -58,8 +59,11 @@ class Controller {
             });
     }
 
-    checkJwt() {
-        if (process.env.TESTS) {
+    checkJwt(endpoint) {
+        if (process.env.TESTS
+            || (endpoint !== undefined
+                && this.noTokenEndpoints[endpoint.type] !== undefined
+                && this.noTokenEndpoints[endpoint.type].indexOf(endpoint.endpoint) > -1)) {
             return (token, secret, next) => {
                 next();
             };
